@@ -1,0 +1,69 @@
+class BankAccount{
+    private string accountNumber;
+    private double balance;
+
+BankAccount(string accountNumber, double balance){
+
+    this.accountNumber = accountNumber;
+    this.balance = balance;
+
+}
+
+public string getAccountNumber(){
+    return accountNumber;
+}
+
+public double getBalance(){
+    return balance;
+}
+
+public void setAccountNumber( string accountNumber){
+this.accountNumber =  accountNumber;
+}
+
+public void setBalance(double balance){
+    this.balance = balance;
+}
+public void deposit(double amount){
+    if (amount >  0){
+        balance += amount;
+
+        System.out.println("deposited: "+ amount + "new balance: "+ balance);
+    }
+    else{
+        System.out.println("invalid amount deposited");
+    }
+}
+}
+public void withdrawal(double amount){
+    if( amount > balance){
+        System.out.println("withdrawal failed");
+        System.out.println("requested: " +amount + "available" +balance);
+    }
+    else if(amount<= 0){
+        System.out.println("invalid withdrawal amount");
+
+    }
+    else{ 
+        balance-= amount; 
+        System.out.println("withdrawal" +amount + "remaining balance" +balance);
+    }
+
+}
+ public static void main(String[] args){
+    BankAccount = new BankAccount(accountNum: "2638v21", balance 2300);
+
+     System.out.println("initial balance" + account.getBalance());
+      System.out.println();
+
+
+      account.deposit(3400);
+      account.withdrawal(300);
+        account.withdrawal(500);
+
+        System.out.println("final balance: "+account + account.getBalance());
+     
+ }
+
+
+

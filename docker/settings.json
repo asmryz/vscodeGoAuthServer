@@ -1,0 +1,28 @@
+{
+    "workbench.startupEditor": "none",
+    "telemetry.telemetryLevel": "off",
+    "git.enabled": false,
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": false,
+    "update.mode": "none",
+    "java.jdt.ls.java.home": "/usr/lib/jvm/java-25-openjdk-amd64",
+    "java.project.sourcePaths": [
+        ".",
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.associations": {
+        "*.java": "java"
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "workbench.activityBar.location": "top",
+    "github.copilot.enable": {
+        "*": false
+    },
+    "github.copilot.editor.enableAutoCompletions": false,
+    "chat.disableAIFeatures": true,
+    "chat.commandCenter.enabled": false
+}

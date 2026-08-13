@@ -1,0 +1,29 @@
+public class student {
+    String name ;
+    String regno ;
+    double cgpa ;
+
+    public student(String name, String regno, double cgpa) {
+        this.name = name;
+        this.regno = regno;
+        this.cgpa = cgpa;
+    }
+
+    void displayinfo(){
+        System.out.println("Student name is = "+ name );
+        System.out.println("\n");
+        System.out.println("Student reg no is = " + regno);
+        System.out.println("\n");
+        System.out.println("Studen cgpa is = "+ cgpa);
+    }
+
+    static void main() {
+        student student1 = new student("abbas","3rt2",9.0);
+        student student2 = new student("sir asim riaz","goat11",3.0);
+        student1.displayinfo();
+        System.out.printf("\n");
+
+        student2.displayinfo();
+    }
+
+}
