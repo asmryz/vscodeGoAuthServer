@@ -1,0 +1,41 @@
+{
+  "name": "classroom-logout",
+  "displayName": "Classroom Logout",
+  "description": "Auto logout on close folder and provides a logout action",
+  "version": "1.0.0",
+  "publisher": "classroom",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "classroom.logout",
+        "title": "Logout / Close Session",
+        "category": "Classroom",
+        "icon": "$(sign-out)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "classroom.logout"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "classroom.logout",
+          "group": "navigation",
+          "when": "!isEmbeddedDiffEditor"
+        }
+      ]
+    }
+  }
+}

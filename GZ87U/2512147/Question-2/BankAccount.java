@@ -22,7 +22,7 @@ public class BankAccount {
 
     public void withdraw(int i) {
         int withdrawal;
-        if(withdrawal >= 10000);
+        if(i >= 10000);
         System.out.println("Withdrawal isn't possible");
     }
 }

@@ -28,11 +28,12 @@ import (
 const (
 	listenAddress        = "0.0.0.0:8090"
 	databaseFile         = "./classroom.db"
-	baseStudentDirectory = "/home/aismriaz/web-editor/GZ87U"
-	dockerImage          = "vscode-java"
-	containerPrefix      = "vscode-java-"
-	sessionCookieName    = "classroom_session"
-	sessionDuration      = 8 * time.Hour
+	baseStudentDirectory = "/home/asim-riaz/git/vscodeGoAuthServer/GZ87U"
+	// baseStudentDirectory = "/home/aismriaz/web-editor/GZ87U"
+	dockerImage       = "vscode-java"
+	containerPrefix   = "vscode-java-"
+	sessionCookieName = "classroom_session"
+	sessionDuration   = 8 * time.Hour
 )
 
 var (
@@ -873,7 +874,7 @@ func ensureStudentContainer(
 		volumeBinding,
 
 		"--entrypoint",
-		"/usr/bin/entrypoint.sh",
+		"/usr/local/bin/classroom-entrypoint.sh",
 
 		dockerImage,
 
@@ -931,7 +932,14 @@ func waitForPort(port int) error {
 
 			conn.Close()
 
-			return nil
+			/*
+			   TCP port is open, but code-server
+			   may not be ready to serve HTTP yet.
+
+			   Poll until we get a real HTTP response.
+			*/
+
+			return waitForHTTP(port, deadline)
 		}
 
 		time.Sleep(
@@ -942,6 +950,47 @@ func waitForPort(port int) error {
 	return fmt.Errorf(
 		"timeout waiting for %s",
 		address,
+	)
+}
+
+func waitForHTTP(
+	port int,
+	deadline time.Time,
+) error {
+
+	url := fmt.Sprintf(
+		"http://127.0.0.1:%d/",
+		port,
+	)
+
+	client := &http.Client{
+		Timeout: 2 * time.Second,
+	}
+
+	for time.Now().Before(deadline) {
+
+		resp, err := client.Get(url)
+
+		if err == nil {
+
+			resp.Body.Close()
+
+			if resp.StatusCode == http.StatusOK ||
+				resp.StatusCode == http.StatusFound ||
+				resp.StatusCode == http.StatusMovedPermanently {
+
+				return nil
+			}
+		}
+
+		time.Sleep(
+			500 * time.Millisecond,
+		)
+	}
+
+	return fmt.Errorf(
+		"timeout waiting for HTTP on port %d",
+		port,
 	)
 }
 
@@ -1200,6 +1249,24 @@ func logoutHandler(
 		)
 	}
 
+	/*
+	   Reset and expire all cookies in the browser.
+	*/
+
+	for _, c := range r.Cookies() {
+		http.SetCookie(
+			w,
+			&http.Cookie{
+				Name:     c.Name,
+				Value:    "",
+				Path:     "/",
+				HttpOnly: true,
+				MaxAge:   -1,
+				Expires:  time.Unix(0, 0),
+			},
+		)
+	}
+
 	http.SetCookie(
 		w,
 		&http.Cookie{
@@ -1210,6 +1277,11 @@ func logoutHandler(
 			MaxAge:   -1,
 			Expires:  time.Unix(0, 0),
 		},
+	)
+
+	w.Header().Set(
+		"Clear-Site-Data",
+		`"cookies", "storage"`,
 	)
 
 	http.Redirect(

@@ -6,17 +6,22 @@
     "extensions.autoCheckUpdates": false,
     "update.mode": "none",
     "java.jdt.ls.java.home": "/usr/lib/jvm/java-25-openjdk-amd64",
-    "java.project.sourcePaths": [
-        ".",
-        "src"
-    ],
-    "java.project.outputPath": "bin",
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "files.associations": {
         "*.java": "java"
     },
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/bin": true
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 500,
+    "java.autobuild.enabled": true,
+    "java.debug.settings.forceBuildBeforeLaunch": true,
+    "java.debug.settings.hotCodeReplace": "auto",
     "terminal.integrated.defaultProfile.linux": "bash",
     "workbench.activityBar.location": "top",
     "github.copilot.enable": {
@@ -24,5 +29,17 @@
     },
     "github.copilot.editor.enableAutoCompletions": false,
     "chat.disableAIFeatures": true,
-    "chat.commandCenter.enabled": false
+    "chat.commandCenter.enabled": false,
+    "chat.editor.enabled": false,
+    "window.menuBarVisibility": "classic",
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.sideBar.location": "right",
+    "workbench.secondarySideBar.visible": false,
+    "code-runner.executorMap": {
+        "java": "cd $dir && java $fileName"
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.clearPreviousOutput": true
 }

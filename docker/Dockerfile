@@ -13,11 +13,12 @@ RUN apt-get update && \
 ENV JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-# Install only required Java extensions
+# Install required extensions
 USER coder
 
 RUN code-server --install-extension redhat.java && \
-    code-server --install-extension vscjava.vscode-java-debug
+    code-server --install-extension vscjava.vscode-java-debug && \
+    code-server --install-extension bierner.markdown-preview-github-styles
 
 # Create classroom workspace and VS Code settings
 USER root
@@ -29,14 +30,21 @@ RUN mkdir -p \
 
 COPY settings.json /home/coder/.local/share/code-server/User/settings.json
 
-RUN chown coder:coder \
-    /home/coder/.local/share/code-server/User/settings.json
+COPY classroom-entrypoint.sh /usr/local/bin/classroom-entrypoint.sh
+RUN chmod +x /usr/local/bin/classroom-entrypoint.sh
+
+COPY classroom-extension /home/coder/.local/share/code-server/extensions/classroom-logout
+
+RUN chown -R coder:coder \
+    /home/coder/.local/share/code-server
 
 USER coder
 
 WORKDIR /home/coder/project
 
 EXPOSE 8080
+
+ENTRYPOINT ["/usr/local/bin/classroom-entrypoint.sh"]
 
 CMD ["code-server", \
     "--bind-addr", "0.0.0.0:8080", \
